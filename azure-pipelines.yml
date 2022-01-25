@@ -31,7 +31,11 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd $(build.artifactStagingDirectory)
+      dir
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -60,12 +64,5 @@ steps:
       
       cd $(build.artifactStagingDirectory)
       ls -lrt
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: true
-    archiveType: 'zip'
-    archiveFile: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
 
 

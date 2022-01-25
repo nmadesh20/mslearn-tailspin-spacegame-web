@@ -20,7 +20,11 @@ steps:
 - task: NuGetCommand@2
   inputs:
     restoreSolution: '$(solution)'
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd $(build.artifactStagingDirectory)
+      dir
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'

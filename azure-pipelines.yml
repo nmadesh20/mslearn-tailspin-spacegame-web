@@ -46,3 +46,10 @@ steps:
       
       cd $(System.DefaultWorkingDirectory)
       ls -lrt
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pay As You Go(069964e3-0984-4087-b45f-560653532e2d)'
+    appType: 'webApp'
+    WebAppName: 'mytestwebapp0125'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'

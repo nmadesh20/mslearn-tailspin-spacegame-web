@@ -21,7 +21,7 @@ steps:
     organization: 'app-sonar2706'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'mslearn-tailspin-spacegame-web'
+    cliProjectKey: 'TailspinSpaceGame'
     cliSources: '.'
 - task: NuGetToolInstaller@1
 

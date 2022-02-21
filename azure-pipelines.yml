@@ -15,6 +15,24 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+- task: WhiteSource@21
+  inputs:
+    cwd: '$(System.DefaultWorkingDirectory)'
+    projectName: 'TailSpin'
+
+- task: FortifyOnDemandStatic@8
+  inputs:
+    FortifyProjects: '.'
+    FodConnection: 'Fortify'
+    ReleaseOptions: '0'
+    ReleaseId: 173705
+    EntitlementSelection: '1'
+    EntitlementPreference: '2'
+    OverrideScanSettings: '2'
+    InProgressScanActionType: '0'
+    RemediationScanPreference: '0'
+    BuildType: 'msbuild'
+    PolicyFailAction: '0'
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'
@@ -44,3 +62,19 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: JFrogGenericArtifacts@1
+  inputs:
+    command: 'Upload'
+    connection: 'JFrog Artifactory2'
+    specSource: 'taskConfiguration'
+    fileSpec: |
+      {
+        "files": [
+          {
+            "pattern": "$(build.artifactStagingDirectory)/*",
+            "target": "dotnetuploaddownload/dotnetuploaddownload/${Build.BuildId}"
+          }
+        ]
+      }
+    failNoOp: true

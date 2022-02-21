@@ -129,13 +129,3 @@ steps:
     targetDeployRepo: 'dotnetuploaddownload'
     pathToNupkg: '*.nupkg'
 
-- task: JFrogBuildPromotion@1
-  inputs:
-    artifactoryConnection: 'JFrog Artifactory2'
-    buildName: '$(Build.DefinitionName)'
-    buildNumber: '$(Build.BuildNumber)'
-    targetRepo: 'dotnetuploaddownload'
-    status: 'Released'
-    includeDependencies: false
-    copy: false
-    dryRun: false

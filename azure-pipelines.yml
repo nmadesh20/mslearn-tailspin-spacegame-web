@@ -46,6 +46,12 @@ steps:
       #cd ${Build.SourcesDirectory}\Tailspin.SpaceGame.Web\bin\Release\net5.0
       cd $(build.artifactStagingDirectory)
       dir
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '$(build.artifactStagingDirectory)/*.zip'
+    destinationFolder: '.'
+    cleanDestinationFolder: true
+    overwriteExistingFiles: false
 - task: FortifySCA@7
   inputs:
     runBuildTranslate: true

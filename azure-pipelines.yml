@@ -106,6 +106,14 @@ steps:
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     includeEnvVars: true
+
+
+- task: JFrogNuGet@1
+  inputs:
+    command: 'push'
+    artifactoryConnection: 'JFrog Artifactory2'
+    targetDeployRepo: 'dotnetuploaddownload'
+    pathToNupkg: '*.nupkg'
 - task: JFrogBuildPromotion@1
   inputs:
     artifactoryConnection: 'JFrog Artifactory2'

@@ -74,7 +74,11 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
-
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'tailspinApp'
+    publishLocation: 'pipeline'
 - task: JFrogGenericArtifacts@1
   inputs:
     command: 'Upload'
@@ -116,7 +120,7 @@ steps:
     azureSubscription: 'Pay As You Go (069964e3-0984-4087-b45f-560653532e2d)'
     appType: 'functionApp'
     appName: 'myfunctionapp02212022'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    package: '$(build.artifactStagingDirectory)/*.zip'
     deploymentMethod: 'auto'
 - task: JFrogNuGet@1
   inputs:

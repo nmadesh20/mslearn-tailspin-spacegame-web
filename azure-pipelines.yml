@@ -15,10 +15,10 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: WhiteSource@21
-  inputs:
-    cwd: '$(System.DefaultWorkingDirectory)'
-    projectName: 'TailSpin'
+#- task: WhiteSource@21
+#  inputs:
+#    cwd: '$(System.DefaultWorkingDirectory)'
+#    projectName: 'TailSpin'
 
 - task: SonarCloudPrepare@1
   inputs:
@@ -43,11 +43,12 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      cd ${Build.SourcesDirectory}\Tailspin.SpaceGame.Web\bin\Release\net5.0
+      #cd ${Build.SourcesDirectory}\Tailspin.SpaceGame.Web\bin\Release\net5.0
+      cd $(build.artifactStagingDirectory)
       dir
 - task: FortifyOnDemandStatic@8
   inputs:
-    FortifyProjects: '${Build.SourcesDirectory}\Tailspin.SpaceGame.Web\bin\Release\net5.0'
+    FortifyProjects: '$(build.artifactStagingDirectory)'
     FodConnection: 'Fortify'
     ReleaseOptions: '1'
     BSIToken: 'eyJ0ZW5hbnRJZCI6MjIyNDYsInRlbmFudENvZGUiOiJTdHVkZW50UGF0aF85MTg4NDg3MjJfRk1BXzc2NTE5MjU2MSIsInJlbGVhc2VJZCI6MTczNzA1LCJwYXlsb2FkVHlwZSI6IkFOQUxZU0lTX1BBWUxPQUQiLCJhc3Nlc3NtZW50VHlwZUlkIjoxNCwidGVjaG5vbG9neVR5cGUiOiIuTkVUIiwidGVjaG5vbG9neVR5cGVJZCI6MSwidGVjaG5vbG9neVZlcnNpb24iOiI0LjgiLCJ0ZWNobm9sb2d5VmVyc2lvbklkIjozMCwiYXVkaXRQcmVmZXJlbmNlIjoiQXV0b21hdGVkIiwiYXVkaXRQcmVmZXJlbmNlSWQiOjIsImluY2x1ZGVUaGlyZFBhcnR5IjpmYWxzZSwiaW5jbHVkZU9wZW5Tb3VyY2VBbmFseXNpcyI6ZmFsc2UsInBvcnRhbFVyaSI6Imh0dHBzOi8vdHJpYWwuZm9ydGlmeS5jb20vIiwiYXBpVXJpIjoiaHR0cHM6Ly9hcGkudHJpYWwuZm9ydGlmeS5jb20iLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MX0='
@@ -78,7 +79,7 @@ steps:
         "files": [
           {
             "pattern": "$(build.artifactStagingDirectory)/*",
-            "target": "dotnetuploaddownload/dotnetuploaddownload/$(Build.BuildId)"
+            "target": "dotnetuploaddownload/dotnetuploaddownload/$(Build.BuildId)/"
           }
         ]
       }

@@ -34,8 +34,12 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 - task: DotNetCoreCLI@2
+  displayName: Build
   inputs:
-    command: 'build'
+    command: build
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
 #- task: VSBuild@1
 #  inputs:
 #    solution: '$(solution)'
@@ -115,7 +119,7 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      cd $(System.DefaultWorkingDirectory)
+      cd $(build.artifactStagingDirectory)
       dir
 
 - task: AzureFunctionApp@1

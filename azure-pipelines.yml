@@ -120,10 +120,11 @@ steps:
   displayName: Azure Function App Deploy
   inputs:
     azureSubscription: 'Pay As You Go (069964e3-0984-4087-b45f-560653532e2d)'
-    appType: functionApp
-    appName: myfunctionapp02212022
-    deploymentMethod: zipDeploy
-    package: $(build.artifactStagingDirectory)/*.zip
+    appType: 'functionApp'
+    appName: 'myfunctionapp02212022'
+    package: '$(build.artifactStagingDirectory)/*.zip'
+    deploymentMethod: 'zipDeploy'
+
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'

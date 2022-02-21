@@ -52,19 +52,19 @@ steps:
     Contents: '*zip'
     TargetFolder: '$(build.artifactStagingDirectory)\fortify'
  
-- task: FortifyOnDemandStatic@8
-  inputs:
-    FortifyProjects: '$(build.artifactStagingDirectory)\fortify'
-    FodConnection: 'Fortify'
-    ReleaseOptions: '1'
-    BSIToken: 'eyJ0ZW5hbnRJZCI6MjIyNDYsInRlbmFudENvZGUiOiJTdHVkZW50UGF0aF85MTg4NDg3MjJfRk1BXzc2NTE5MjU2MSIsInJlbGVhc2VJZCI6MTczNzA1LCJwYXlsb2FkVHlwZSI6IkFOQUxZU0lTX1BBWUxPQUQiLCJhc3Nlc3NtZW50VHlwZUlkIjoxNCwidGVjaG5vbG9neVR5cGUiOiIuTkVUIiwidGVjaG5vbG9neVR5cGVJZCI6MSwidGVjaG5vbG9neVZlcnNpb24iOiI0LjgiLCJ0ZWNobm9sb2d5VmVyc2lvbklkIjozMCwiYXVkaXRQcmVmZXJlbmNlIjoiQXV0b21hdGVkIiwiYXVkaXRQcmVmZXJlbmNlSWQiOjIsImluY2x1ZGVUaGlyZFBhcnR5IjpmYWxzZSwiaW5jbHVkZU9wZW5Tb3VyY2VBbmFseXNpcyI6ZmFsc2UsInBvcnRhbFVyaSI6Imh0dHBzOi8vdHJpYWwuZm9ydGlmeS5jb20vIiwiYXBpVXJpIjoiaHR0cHM6Ly9hcGkudHJpYWwuZm9ydGlmeS5jb20iLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MX0='
-    EntitlementSelection: '1'
-    EntitlementPreference: '2'
-    OverrideScanSettings: '2'
-    InProgressScanActionType: '0'
-    RemediationScanPreference: '0'
-    BuildType: 'none'
-    PolicyFailAction: '0'
+#- task: FortifyOnDemandStatic@8
+#  inputs:
+#    FortifyProjects: '$(build.artifactStagingDirectory)\fortify'
+#    FodConnection: 'Fortify'
+#    ReleaseOptions: '1'
+#    BSIToken: 'eyJ0ZW5hbnRJZCI6MjIyNDYsInRlbmFudENvZGUiOiJTdHVkZW50UGF0aF85MTg4NDg3MjJfRk1BXzc2NTE5MjU2MSIsInJlbGVhc2VJZCI6MTczNzA1LCJwYXlsb2FkVHlwZSI6IkFOQUxZU0lTX1BBWUxPQUQiLCJhc3Nlc3NtZW50VHlwZUlkIjoxNCwidGVjaG5vbG9neVR5cGUiOiIuTkVUIiwidGVjaG5vbG9neVR5cGVJZCI6MSwidGVjaG5vbG9neVZlcnNpb24iOiI0LjgiLCJ0ZWNobm9sb2d5VmVyc2lvbklkIjozMCwiYXVkaXRQcmVmZXJlbmNlIjoiQXV0b21hdGVkIiwiYXVkaXRQcmVmZXJlbmNlSWQiOjIsImluY2x1ZGVUaGlyZFBhcnR5IjpmYWxzZSwiaW5jbHVkZU9wZW5Tb3VyY2VBbmFseXNpcyI6ZmFsc2UsInBvcnRhbFVyaSI6Imh0dHBzOi8vdHJpYWwuZm9ydGlmeS5jb20vIiwiYXBpVXJpIjoiaHR0cHM6Ly9hcGkudHJpYWwuZm9ydGlmeS5jb20iLCJzY2FuUHJlZmVyZW5jZSI6IlN0YW5kYXJkIiwic2NhblByZWZlcmVuY2VJZCI6MX0='
+#    EntitlementSelection: '1'
+#    EntitlementPreference: '2'
+#    OverrideScanSettings: '2'
+#    InProgressScanActionType: '0'
+#    RemediationScanPreference: '0'
+#    BuildType: 'none'
+#    PolicyFailAction: '0'
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
@@ -90,3 +90,20 @@ steps:
         ]
       }
     failNoOp: true
+- task: JFrogToolsInstaller@1
+  inputs:
+    artifactoryConnection: 'JFrog Artifactory2'
+    cliInstallationRepo: 'jfrog-cli-remote'
+    installExtractors: true
+    extractorsInstallationRepo: 'extractors'
+- task: JFrogBuildPromotion@1
+  inputs:
+    artifactoryConnection: 'JFrog Artifactory2'
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
+    projectKey: 'dotnetApp'
+    targetRepo: 'dotnetuploaddownload'
+    status: 'Released'
+    includeDependencies: true
+    copy: true
+    dryRun: true

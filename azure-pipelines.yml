@@ -40,6 +40,11 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd ${Build.SourcesDirectory}/Tailspin.SpaceGame.Web/bin/Release/net5.0/
+      dir
 - task: FortifyOnDemandStatic@8
   inputs:
     FortifyProjects: '${Build.SourcesDirectory}/Tailspin.SpaceGame.Web/bin/Release/net5.0/'

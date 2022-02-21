@@ -115,6 +115,14 @@ steps:
     script: |
       cd $(System.DefaultWorkingDirectory)
       dir
+- task: AzureFunctionApp@1
+  displayName: Azure Function App Deploy
+  inputs:
+    azureSubscription: 'Pay As You Go (069964e3-0984-4087-b45f-560653532e2d)'
+    appType: functionApp
+    appName: samplefunctionapp
+    deploymentMethod: zipDeploy
+    package: $(build.artifactStagingDirectory)/*.zip
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'

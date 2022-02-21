@@ -31,7 +31,6 @@ steps:
     OverrideScanSettings: '2'
     InProgressScanActionType: '0'
     RemediationScanPreference: '0'
-    BuildType: 'msbuild'
     PolicyFailAction: '0'
 - task: SonarCloudPrepare@1
   inputs:
@@ -39,7 +38,7 @@ steps:
     organization: 'app-sonar2706'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'mslearn-tailspin-spacegame-web'
+    cliProjectKey: 'spacegame-web'
     cliSources: '.'
 - task: NuGetToolInstaller@1
 

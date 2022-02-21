@@ -96,7 +96,19 @@ steps:
     cliInstallationRepo: 'jfrog-cli-remote'
     installExtractors: true
     extractorsInstallationRepo: 'extractors'
-
+- task: JFrogMaven@1
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'install'
+    artifactoryResolverService: 'JFrog Artifactory2'
+    targetResolveReleaseRepo: 'default-maven-virtual'
+    targetResolveSnapshotRepo: 'default-maven-virtual'
+    artifactoryDeployService: 'JFrog Artifactory2'
+    targetDeployReleaseRepo: 'dotnetuploaddownload'
+    targetDeploySnapshotRepo: 'dotnetuploaddownload'
+    collectBuildInfo: true
+    buildName: '$(Build.DefinitionName)'
+    buildNumber: '$(Build.BuildNumber)'
 - task: JFrogBuildPromotion@1
   inputs:
     artifactoryConnection: 'JFrog Artifactory2'

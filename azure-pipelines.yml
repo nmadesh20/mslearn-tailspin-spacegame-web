@@ -106,14 +106,25 @@ steps:
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
     includeEnvVars: true
-
-
+- task: CmdLine@2
+  inputs:
+    script: |
+      cd $(System.DefaultWorkingDirectory)
+      dir
+- task: AzureFunctionApp@1
+  inputs:
+    azureSubscription: 'Pay As You Go (069964e3-0984-4087-b45f-560653532e2d)'
+    appType: 'functionApp'
+    appName: 'myfunctionapp02212022'
+    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    deploymentMethod: 'auto'
 - task: JFrogNuGet@1
   inputs:
     command: 'push'
     artifactoryConnection: 'JFrog Artifactory2'
     targetDeployRepo: 'dotnetuploaddownload'
     pathToNupkg: '*.nupkg'
+
 - task: JFrogBuildPromotion@1
   inputs:
     artifactoryConnection: 'JFrog Artifactory2'

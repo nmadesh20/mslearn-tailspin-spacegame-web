@@ -96,14 +96,14 @@ steps:
     cliInstallationRepo: 'jfrog-cli-remote'
     installExtractors: true
     extractorsInstallationRepo: 'extractors'
+
 - task: JFrogBuildPromotion@1
   inputs:
     artifactoryConnection: 'JFrog Artifactory2'
     buildName: '$(Build.DefinitionName)'
     buildNumber: '$(Build.BuildNumber)'
-    projectKey: 'dotnetApp'
     targetRepo: 'dotnetuploaddownload'
     status: 'Released'
-    includeDependencies: true
-    copy: true
-    dryRun: true
+    includeDependencies: false
+    copy: false
+    dryRun: false

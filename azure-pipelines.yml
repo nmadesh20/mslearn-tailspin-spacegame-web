@@ -19,7 +19,13 @@ steps:
   inputs:
     cwd: '$(System.DefaultWorkingDirectory)'
     projectName: 'TailSpin'
-
+- task: SonarQubePrepare@5
+  inputs:
+    SonarQube: 'sonarQube'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'madeshstailspin'
+    cliSources: '.'
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'
@@ -62,6 +68,10 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+- task: SonarQubeAnalyze@5
+- task: SonarQubePublish@5
+  inputs:
+    pollingTimeoutSec: '300'
 - task: SonarCloudAnalyze@1
 - task: SonarCloudPublish@1
   inputs:

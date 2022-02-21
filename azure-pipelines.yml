@@ -72,7 +72,7 @@ steps:
         "files": [
           {
             "pattern": "$(build.artifactStagingDirectory)/*",
-            "target": "dotnetuploaddownload/dotnetuploaddownload/${Build.BuildId}"
+            "target": "dotnetuploaddownload/dotnetuploaddownload/$(Build.BuildId)"
           }
         ]
       }

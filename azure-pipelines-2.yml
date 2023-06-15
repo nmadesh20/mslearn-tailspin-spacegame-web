@@ -1,0 +1,63 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+  - task: UseDotNet@2
+    inputs:
+      version: '6.x'
+      performMultiLevelLookup: true
+      includePreviewVersions: true
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'restore'
+      feedsToUse: 'select'
+      vstsFeed: '81f4007f-9565-404f-a587-6cd5c9bd147f/48a9d5ac-b7ff-435b-8e97-5fd44025c305'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'build'
+      arguments: '--configuration $(buildConfiguration)'
+      projects: '**/*.csproj'
+    displayName: 'dotnet build $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*Tests/*.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: test
+      projects: '**/*Tests/*.csproj'
+      arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: VSTest
+      testResultsFiles: '**/*.trx'
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish code coverage report'
+    inputs:
+     codeCoverageTool: 'Cobertura'
+     summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+  - task: DotNetCoreCLI@2
+    inputs:
+     command: publish
+     publishWebProjects: True
+     arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+     zipAfterPublish: True
+  - task: PublishPipelineArtifact@1
+    inputs:
+     targetPath: '$(Build.ArtifactStagingDirectory)'
+     artifactName: 'mywebsiteName'

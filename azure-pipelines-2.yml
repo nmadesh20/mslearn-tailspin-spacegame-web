@@ -61,3 +61,10 @@ steps:
     inputs:
      targetPath: '$(Build.ArtifactStagingDirectory)'
      artifactName: 'mywebsiteName'
+  - task: AzureWebApp@1
+    inputs:
+      azureSubscription: 'Pay As You Go(069964e3-0984-4087-b45f-560653532e2d)'
+      appType: 'webApp'
+      appName: 'mydotnetwebapp0615'
+      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      deploymentMethod: 'auto'

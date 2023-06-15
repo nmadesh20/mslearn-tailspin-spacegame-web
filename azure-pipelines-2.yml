@@ -20,6 +20,12 @@ steps:
       version: '6.x'
       performMultiLevelLookup: true
       includePreviewVersions: true
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud'
+      organization: 'myazuredevopspjts'
+      scannerMode: 'MSBuild'
+      projectKey: 'sonar.tailspin'
   - task: DotNetCoreCLI@2
     inputs:
       command: 'restore'
@@ -51,6 +57,12 @@ steps:
     inputs:
      codeCoverageTool: 'Cobertura'
      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+  - task: SonarCloudAnalyze@1
+    inputs:
+      jdkversion: 'JAVA_HOME_11_X64'
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
   - task: DotNetCoreCLI@2
     inputs:
      command: publish

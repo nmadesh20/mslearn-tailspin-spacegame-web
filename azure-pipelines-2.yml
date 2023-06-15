@@ -66,5 +66,6 @@ steps:
       azureSubscription: 'Pay As You Go(069964e3-0984-4087-b45f-560653532e2d)'
       appType: 'webApp'
       appName: 'mydotnetwebapp0615'
-      package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+      package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
       deploymentMethod: 'auto'
+  
